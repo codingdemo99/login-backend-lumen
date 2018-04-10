@@ -14,3 +14,11 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->post('v1/auth/login', ['uses' => 'AuthController@authenticate']);
+  
+    $router->post('v1/users', ['uses' => 'UserController@createUser']);
+
+    $router->get('v1/users/me', ['middleware' => 'jwt.auth', 'uses' => 'UserController@getUserMe']);
+});
